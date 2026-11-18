@@ -47,9 +47,11 @@ The application includes the following features:
 - Minimum area filtering to ignore smaller unwanted regions.
 ## Project Demo
 
-### Real-Time Colour Detection
+### Live Colour Detection
+![Live Detection](screenshots/live-detection.png)
 
-![Live Colour Detection](screenshots/live-detection.png)
+### Multiple Colour Detection
+![Multiple Colours](screenshots/multiple-colours.png)
 
 ## How It Works
 
