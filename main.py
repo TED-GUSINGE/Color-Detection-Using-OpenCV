@@ -3,8 +3,7 @@ import cv2
 import numpy as np
 
 # Initialize the webcam
-cap = cv2.VideoCapture(0)
-
+cap = cv2.VideoCapture(0, cv2.CAP_AVFOUNDATION)
 if not cap.isOpened():
     print("Error: Could not access the camera.")
     exit()
@@ -12,17 +11,24 @@ if not cap.isOpened():
 # Define HSV colour ranges
 color_ranges = {
     "Red": [
-        (np.array([0, 100, 100]), np.array([10, 255, 255])),
-        (np.array([160, 100, 100]), np.array([180, 255, 255]))
+        (np.array([0, 160, 100]), np.array([5, 255, 255])),
+        (np.array([175, 160, 100]), np.array([180, 255, 255]))
     ],
-    "Green": [
-        (np.array([35, 100, 100]), np.array([85, 255, 255]))
+
+    "Orange": [
+        (np.array([7, 160, 100]), np.array([17, 255, 255]))
     ],
-    "Blue": [
-        (np.array([90, 100, 100]), np.array([130, 255, 255]))
-    ],
+
     "Yellow": [
-        (np.array([20, 100, 100]), np.array([35, 255, 255]))
+        (np.array([18, 100, 100]), np.array([38, 255, 255]))
+    ],
+
+    "Green": [
+        (np.array([40, 100, 80]), np.array([85, 255, 255]))
+    ],
+
+    "Blue": [
+        (np.array([90, 100, 80]), np.array([130, 255, 255]))
     ]
 }
 
@@ -48,10 +54,17 @@ while True:
             color_mask = cv2.inRange(hsv, lower, upper)
             mask = cv2.bitwise_or(mask, color_mask)
 
-        # Remove small noise
+               # Remove small noise from the mask
         kernel = np.ones((5, 5), np.uint8)
+
+        # Remove small unwanted spots
         mask = cv2.morphologyEx(
             mask, cv2.MORPH_OPEN, kernel
+        )
+
+        # Fill small gaps inside detected objects
+        mask = cv2.morphologyEx(
+            mask, cv2.MORPH_CLOSE, kernel
         )
 
         # Find object contours
@@ -64,7 +77,7 @@ while True:
         for contour in contours:
             area = cv2.contourArea(contour)
 
-            if area > 500:
+            if area > 3000:
                 x, y, w, h = cv2.boundingRect(contour)
 
                 # Draw bounding box
