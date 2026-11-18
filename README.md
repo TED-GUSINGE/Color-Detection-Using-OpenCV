@@ -45,6 +45,11 @@ The application includes the following features:
 - Contour detection to identify colour regions.
 - Bounding boxes and colour labels around detected regions.
 - Minimum area filtering to ignore smaller unwanted regions.
+## Project Demo
+
+### Real-Time Colour Detection
+
+![Live Colour Detection](screenshots/live-detection.png)
 
 ## How It Works
 
